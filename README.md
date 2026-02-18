@@ -1,4 +1,4 @@
-# Job Portal Ecosystem - DEPI Graduation Project
+# Jobify - DEPI Graduation Project
 
 A robust recruitment platform designed to connect talent with opportunity. This project is the final graduation requirement for the **Digital Egypt Pioneers Initiative (DEPI)** under the **Full-Stack .NET track**.
 
