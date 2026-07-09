@@ -77,8 +77,20 @@ await using (var scope = app.Services.CreateAsyncScope())
     await dbContext.Database.MigrateAsync();
     await IdentitySeeder.SeedRolesAsync(scope.ServiceProvider);
     await PlatformSeeder.SeedAsync(scope.ServiceProvider);
-    var jobMatchService = scope.ServiceProvider.GetRequiredService<JobMatchService>();
-    await jobMatchService.TrainAsync();
 }
+
+_ = Task.Run(async () =>
+{
+    try
+    {
+        await using var scope = app.Services.CreateAsyncScope();
+        var jobMatchService = scope.ServiceProvider.GetRequiredService<JobMatchService>();
+        await jobMatchService.TrainAsync();
+    }
+    catch
+    {
+        // Training is a background optimization; the app should still start if it fails.
+    }
+});
 
 app.Run();
