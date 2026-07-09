@@ -1,0 +1,127 @@
+@model Jobify.Web.Models.EmployerDashboardViewModel
+@{
+    ViewData["Title"] = "Employer Dashboard";
+}
+
+<div class="py-4 mb-4 border-bottom">
+    <p class="text-muted small text-uppercase fw-bold mb-1">Employer Panel</p>
+    <h1 class="h2 fw-bold mb-1">Your Dashboard</h1>
+    <p class="text-muted">Manage your job postings, track applications, and review candidates.</p>
+</div>
+
+<section class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="dashboard-card h-100">
+            <h2 class="h6 text-uppercase text-muted mb-2 fw-bold">Active Postings</h2>
+            <p class="display-6 fw-semibold mb-0">@Model.OpenJobs</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="dashboard-card h-100">
+            <h2 class="h6 text-uppercase text-muted mb-2 fw-bold">Total Applications</h2>
+            <p class="display-6 fw-semibold mb-0" style="color: var(--j-violet);">@Model.TotalApplications</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <a class="dashboard-card dashboard-card--action h-100" asp-action="Create">
+            <span class="h5 mb-0 fw-bold">+ New Job Posting</span>
+        </a>
+    </div>
+</section>
+
+<div class="d-flex justify-content-end mb-3">
+    <a class="btn btn-outline-secondary btn-sm" asp-action="Reports">View Reports</a>
+</div>
+
+<section class="card shadow-sm border-0 mb-4">
+    <div class="card-body p-4">
+        <h2 class="h5 mb-3 fw-semibold" style="color: var(--j-cyan);">Your Job Postings</h2>
+        @if (Model.Jobs.Count == 0)
+        {
+            <div class="py-4 text-center text-muted">
+                <p class="mb-2">No jobs posted yet</p>
+                <a class="btn btn-primary btn-sm" asp-action="Create">Post your first job</a>
+            </div>
+        }
+        else
+        {
+            <div class="list-group list-group-flush">
+                @foreach (var job in Model.Jobs)
+                {
+                    <div class="list-group-item px-0 d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="fw-semibold">@job.Title</div>
+                            <div class="text-muted small mt-1">@job.Location &middot; @job.Category</div>
+                            <div class="mt-1">
+                                @if (job.Status == Jobify.Web.Models.JobStatus.Pending)
+                                {
+                                    <span class="badge bg-warning text-dark">Pending Approval</span>
+                                }
+                                else if (job.Status == Jobify.Web.Models.JobStatus.Approved)
+                                {
+                                    <span class="badge bg-success">Approved</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">Rejected</span>
+                                    <span class="text-danger small ms-2">Rejection Reason: <strong>@job.RejectionReason</strong></span>
+                                }
+                            </div>
+                        </div>
+                        <div class="d-flex gap-2">
+                            @if (job.Status == Jobify.Web.Models.JobStatus.Rejected)
+                            {
+                                <a class="btn btn-warning btn-sm" asp-action="EditJob" asp-route-id="@job.Id">Edit &amp; Resubmit</a>
+                            }
+                            else if (job.Status == Jobify.Web.Models.JobStatus.Approved)
+                            {
+                                <a class="btn btn-outline-primary btn-sm" asp-action="Applications" asp-route-jobId="@job.Id">Review Applications</a>
+                            }
+                            else
+                            {
+                                <span class="text-muted small fst-italic">Awaiting admin review</span>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</section>
+
+<section class="card shadow-sm border-0">
+    <div class="card-body p-4">
+        <h2 class="h5 mb-3 fw-semibold" style="color: var(--j-violet);">Recent Applications</h2>
+        @if (Model.Applications.Count == 0)
+        {
+            <p class="text-muted mb-0">No incoming applications yet.</p>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Applicant</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var application in Model.Applications.Take(10))
+                        {
+                            <tr>
+                                <td class="fw-medium">@application.ApplicantName</td>
+                                <td>
+                                    <span class="status-led status-led--@application.Status.ToString().ToLowerInvariant()"></span>
+                                    <span class="badge status-badge--@application.Status.ToString().ToLowerInvariant()">@application.Status</span>
+                                </td>
+                                <td class="text-muted small">@application.AppliedAtUtc.ToLocalTime().ToString("MMM d, HH:mm")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</section>

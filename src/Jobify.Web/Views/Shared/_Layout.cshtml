@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#020408" />
+    <title>@ViewData["Title"] — JOBIFY</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Jobify.Web.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="site-header">
+        <nav class="navbar navbar-expand-lg jobify-nav">
+            <div class="container site-shell py-2">
+                <a class="navbar-brand brand-mark" asp-area="" asp-controller="Home" asp-action="Index">
+                    <span class="brand-mark__bracket">[</span>
+                    <span class="brand-mark__dot"></span>
+                    <span>JOBIFY</span>
+                    <span class="brand-mark__bracket">]</span>
+                </a>
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+                        aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div id="mainNav" class="navbar-collapse collapse d-lg-flex align-items-lg-center justify-content-between gap-3">
+                    <ul class="navbar-nav nav-pills flex-grow-1 gap-1">
+                        <li class="nav-item">
+                            <a class="nav-link nav-pill" asp-area="" asp-controller="Home" asp-action="Index">
+                                <span class="nav-index">01</span>Home
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-pill" asp-area="" asp-controller="Jobs" asp-action="Index">
+                                <span class="nav-index">02</span>Jobs
+                            </a>
+                        </li>
+                        @if (User.IsInRole("Employer"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link nav-pill" asp-area="" asp-controller="Employer" asp-action="Dashboard">
+                                    <span class="nav-index">03</span>Dashboard
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link nav-pill" asp-area="" asp-controller="Employer" asp-action="Reports">
+                                    <span class="nav-index">04</span>Reports
+                                </a>
+                            </li>
+                        }
+                        @if (User.IsInRole("JobSeeker"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link nav-pill" asp-area="" asp-controller="Candidate" asp-action="Profile">
+                                    <span class="nav-index">03</span>My Profile
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link nav-pill" asp-area="" asp-controller="Candidate" asp-action="Applications">
+                                    <span class="nav-index">04</span>Applications
+                                </a>
+                            </li>
+                        }
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link nav-pill" asp-area="" asp-controller="Admin" asp-action="Index">
+                                    <span class="nav-index">03</span>Admin
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link nav-pill" asp-area="" asp-controller="Admin" asp-action="Reports">
+                                    <span class="nav-index">04</span>Reports
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link nav-pill" asp-area="" asp-controller="Admin" asp-action="ManageJobs">
+                                    <span class="nav-index">05</span>Manage Jobs
+                                </a>
+                            </li>
+                        }
+                        <li class="nav-item">
+                            <a class="nav-link nav-pill" asp-area="" asp-controller="Home" asp-action="Privacy">
+                                <span class="nav-index">05</span>Privacy
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="nav-auth">
+                        <partial name="_LoginPartial" />
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container site-shell py-4 py-lg-5">
+        @if (TempData["ProfileMessage"] is string profileMessage && !string.IsNullOrWhiteSpace(profileMessage))
+        {
+            <div class="alert alert-warning border-0 mb-4">&#9888; @profileMessage</div>
+        }
+        @RenderBody()
+    </main>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <!-- Floating Chatbot Widget -->
+    <div id="chatbot-widget" class="chatbot-container">
+        <div id="chatbot-toggle" class="chatbot-toggle" onclick="toggleChatbot()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-robot" viewBox="0 0 16 16">
+              <path d="M6 12.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5M3 8.062C3 6.76 4.235 5.765 5.53 5.889a28.02 28.02 0 0 1 4.94 0C11.765 5.765 13 6.76 13 8.062v1.157a.933.933 0 0 1-.765.935c-.845.147-2.34.346-4.235.346-1.895 0-3.39-.2-4.235-.346A.933.933 0 0 1 3 9.219zm4.542-.827a.25.25 0 0 0-.217.068l-.92.9a25 25 0 0 1-1.871-.183.25.25 0 0 0-.068.495c.55.076 1.232.149 2.02.193a.25.25 0 0 0 .189-.071l.754-.736.847 1.71a.25.25 0 0 0 .404.062l.932-.97a25 25 0 0 0 1.922-.188.25.25 0 0 0-.068-.495c-.538.074-1.207.145-1.98.189a.25.25 0 0 0-.166.076l-.754.785-.842-1.7a.25.25 0 0 0-.182-.135"/>
+              <path d="M8.5 1.866a1 1 0 1 0-1 0V3h-2A4.5 4.5 0 0 0 1 7.5V8a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1v1a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1v-.5A4.5 4.5 0 0 0 10.5 3h-2zM14 7.5V13a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7.5A3.5 3.5 0 0 1 5.5 4h5A3.5 3.5 0 0 1 14 7.5"/>
+            </svg>
+        </div>
+        <div id="chatbot-panel" class="chatbot-panel d-none card shadow">
+            <div class="chatbot-header bg-primary text-white p-3 d-flex justify-content-between align-items-center">
+                <span class="fw-bold">Support Assistant</span>
+                <button type="button" class="btn-close btn-close-white" aria-label="Close" onclick="toggleChatbot()"></button>
+            </div>
+            <div id="chatbot-messages" class="chatbot-messages p-3">
+                <div class="chatbot-message bot-message">
+                    Hello! How can I help you find a job?
+                </div>
+            </div>
+            <div class="chatbot-input p-2">
+                <form id="chatbot-form" onsubmit="handleChatbotSubmit(event)" class="d-flex gap-2">
+                    <input type="text" id="chatbot-input-text" class="form-control form-control-sm" placeholder="e.g., Backend developer..." required autocomplete="off" />
+                    <button type="submit" class="btn btn-sm btn-primary">Send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

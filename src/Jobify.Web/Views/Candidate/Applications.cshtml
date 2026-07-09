@@ -1,0 +1,86 @@
+@model IEnumerable<Jobify.Web.Models.JobApplication>
+@{
+    ViewData["Title"] = "My Applications";
+}
+
+<div class="row g-4">
+    <div class="col-12">
+        <section class="card shadow-sm border-0">
+            <div class="card-body p-4 p-lg-5">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <div>
+                        <p class="text-muted small text-uppercase fw-bold mb-1">Status tracker</p>
+                        <h1 class="h3 mb-0 fw-bold">My Applications</h1>
+                    </div>
+                </div>
+
+                @if (Model != null && Model.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table  table-hover mb-0 align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col" class="py-3">Job Title</th>
+                                    <th scope="col" class="py-3">Applied On</th>
+                                    <th scope="col" class="py-3">Status</th>
+                                    <th scope="col" class="py-3">Assessment Result</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var app in Model)
+                                {
+                                    <tr>
+                                        <td class="fw-medium">@app.JobPosting.Title</td>
+                                        <td class="text-muted small">@app.AppliedAtUtc.ToString("MMM dd, yyyy")</td>
+                                        <td>
+                                            @if (app.Status == Jobify.Web.Models.ApplicationStatus.Submitted)
+                                            {
+                                                <span class="badge text-bg-warning">Submitted</span>
+                                            }
+                                            else if (app.Status == Jobify.Web.Models.ApplicationStatus.Accepted)
+                                            {
+                                                <span class="badge text-bg-success">Accepted</span>
+                                            }
+                                            else if (app.Status == Jobify.Web.Models.ApplicationStatus.Rejected)
+                                            {
+                                                <span class="badge text-bg-danger">Rejected</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge text-bg-secondary">@app.Status</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (!string.IsNullOrWhiteSpace(app.ReviewerNotes) && app.ReviewerNotes.StartsWith("Auto-"))
+                                            {
+                                                <span class="text-muted small">@app.ReviewerNotes</span>
+                                            }
+                                            else if (app.JobPosting != null && !string.IsNullOrWhiteSpace(app.JobPosting.AssessmentPrompt))
+                                            {
+                                                <span class="text-muted small">Pending manual review</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted small">N/A</span>
+                                            }
+                                        </td>
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="empty-state">
+                        <p class="mb-2"><strong>No applications found</strong></p>
+                        <p class="small text-muted mb-4">You haven't applied to any jobs yet.</p>
+                        <a href="/Jobs" class="btn btn-outline-primary">Browse Jobs</a>
+                    </div>
+                }
+            </div>
+        </section>
+    </div>
+</div>

@@ -1,0 +1,131 @@
+@model Jobify.Web.Models.EmployerProfile
+@{
+    ViewData["Title"] = Model.CompanyName + " — Employer Profile";
+}
+
+<div class="py-4 mb-4 border-bottom">
+    <a class="btn btn-outline-secondary btn-sm mb-3" asp-action="Index">&larr; Back to Dashboard</a>
+    <p class="text-muted small text-uppercase fw-bold mb-1">Employer Review</p>
+    <h1 class="h2 fw-bold mb-1">@Model.CompanyName</h1>
+    <p class="text-muted">Registered on @Model.CreatedAtUtc.ToString("d MMMM yyyy")</p>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-7">
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-4">
+                <h2 class="h5 fw-semibold mb-4" style="color: var(--j-cyan);">Company Information</h2>
+
+                <dl class="row mb-0">
+                    <dt class="col-sm-4 text-muted">Company Name</dt>
+                    <dd class="col-sm-8 fw-semibold">@Model.CompanyName</dd>
+
+                    <dt class="col-sm-4 text-muted">Registered Name</dt>
+                    <dd class="col-sm-8 fw-semibold">@ViewBag.Name</dd>
+
+                    <dt class="col-sm-4 text-muted">Registered Email</dt>
+                    <dd class="col-sm-8"><a href="mailto:@ViewBag.Email">@ViewBag.Email</a></dd>
+
+                    <dt class="col-sm-4 text-muted">Industry</dt>
+                    <dd class="col-sm-8">@(string.IsNullOrEmpty(Model.Industry) || Model.Industry == "Not Specified" ? "—" : Model.Industry)</dd>
+
+                    <dt class="col-sm-4 text-muted">Location</dt>
+                    <dd class="col-sm-8">@(string.IsNullOrEmpty(Model.Location) || Model.Location == "Not Specified" ? "—" : Model.Location)</dd>
+
+                    <dt class="col-sm-4 text-muted">Website</dt>
+                    <dd class="col-sm-8">
+                        @if (!string.IsNullOrEmpty(Model.Website))
+                        {
+                            <a href="@Model.Website" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary">
+                                &#127760; Open Website
+                            </a>
+                        }
+                        else
+                        {
+                            <span class="text-muted">No website provided</span>
+                        }
+                    </dd>
+
+                    <dt class="col-sm-4 text-muted">Status</dt>
+                    <dd class="col-sm-8">
+                        @if (Model.IsApproved)
+                        {
+                            <span class="badge bg-success">Approved</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-warning text-dark">Pending Approval</span>
+                        }
+                    </dd>
+                </dl>
+            </div>
+        </div>
+
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-4">
+                <h2 class="h5 fw-semibold mb-3" style="color: var(--j-cyan);">Company Description</h2>
+                @if (!string.IsNullOrEmpty(Model.Description))
+                {
+                    <p class="mb-0" style="line-height: 1.8;">@Model.Description</p>
+                }
+                else
+                {
+                    <p class="text-muted mb-0">No description provided.</p>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-5">
+        @if (!Model.IsApproved)
+        {
+            <div class="card shadow-sm border-0 border-start border-4 border-warning mb-4">
+                <div class="card-body p-4">
+                    <h2 class="h5 fw-semibold mb-3 text-warning">Admin Decision</h2>
+                    <p class="text-muted small mb-3">Review the company details, visit their website, and decide whether to approve this employer account.</p>
+
+                    <form method="post" asp-controller="Admin" asp-action="ApproveEmployer" class="mb-2">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="profileId" value="@Model.Id" />
+                        <button type="submit" class="btn btn-success w-100">
+                            &#10003; Approve Employer Account
+                        </button>
+                    </form>
+                    <form method="post" asp-controller="Admin" asp-action="RejectEmployer">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="profileId" value="@Model.Id" />
+                        <button type="submit" class="btn btn-danger w-100">
+                            &#10005; Reject &amp; Remove
+                        </button>
+                    </form>
+                </div>
+            </div>
+        }
+
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+                <h2 class="h6 fw-semibold mb-3 text-muted text-uppercase">Quick Check</h2>
+                <ul class="list-unstyled mb-0">
+                    <li class="mb-2">
+                        <span class="@(!string.IsNullOrEmpty(Model.CompanyName) ? "text-success" : "text-danger")">
+                            @(!string.IsNullOrEmpty(Model.CompanyName) ? "✓" : "✗")
+                        </span>
+                        Company name provided
+                    </li>
+                    <li class="mb-2">
+                        <span class="@(!string.IsNullOrEmpty(Model.Website) ? "text-success" : "text-warning")">
+                            @(!string.IsNullOrEmpty(Model.Website) ? "✓" : "!")
+                        </span>
+                        Website provided
+                    </li>
+                    <li class="mb-2">
+                        <span class="@(!string.IsNullOrEmpty(Model.Description) ? "text-success" : "text-warning")">
+                            @(!string.IsNullOrEmpty(Model.Description) ? "✓" : "!")
+                        </span>
+                        Description provided
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,50 @@
+@model Jobify.Web.Models.JobApplicationInputModel
+@{
+    ViewData["Title"] = "Apply";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <section class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-4 p-lg-5">
+                <p class="text-muted small text-uppercase fw-bold mb-1">Job Application</p>
+                <h1 class="h3 mb-2 fw-semibold">Apply for this mission</h1>
+                <p class="text-muted mb-4">Your uploaded CV will be attached automatically. Add a short cover letter below.</p>
+
+                <form method="post" class="row g-3">
+                    <input asp-for="JobPostingId" type="hidden" />
+                    <input asp-for="ResumeUrl" type="hidden" />
+                    <div asp-validation-summary="ModelOnly" class="text-danger small"></div>
+                    <div class="col-12">
+                        <label asp-for="CoverLetter" class="form-label"></label>
+                        <textarea asp-for="CoverLetter" class="form-control" rows="7" placeholder="Why are you a strong fit for this role?"></textarea>
+                        <span asp-validation-for="CoverLetter" class="text-danger small"></span>
+                    </div>
+
+                    @{
+                        var job = ViewBag.Job as Jobify.Web.Models.JobPosting;
+                    }
+                    @if (job != null && !string.IsNullOrWhiteSpace(job.AssessmentPrompt))
+                    {
+                        <div class="col-12 mt-4 pt-3 border-top" style="border-color: var(--j-dim) !important;">
+                            <h4 class="h5 mb-3 fw-semibold text-warning">Required Assessment</h4>
+                            <p class="text-white"><strong>@job.AssessmentPrompt</strong></p>
+                            <label asp-for="AssessmentAnswer" class="form-label">Your Answer</label>
+                            <textarea asp-for="AssessmentAnswer" class="form-control" rows="3" placeholder="Provide your answer here..."></textarea>
+                            <span asp-validation-for="AssessmentAnswer" class="text-danger small"></span>
+                        </div>
+                    }
+
+                    <div class="col-12 d-flex gap-2 pt-2">
+                        <button class="btn btn-primary" type="submit">Submit Application</button>
+                        <a class="btn btn-outline-secondary" asp-action="Details" asp-route-id="@Model.JobPostingId">Abort</a>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,82 @@
+@model Jobify.Web.Models.JobPostingInputModel
+@{
+    ViewData["Title"] = "Edit Job";
+    var jobId = ViewBag.JobId as int?;
+}
+
+<div class="py-3 mb-3 border-bottom">
+    <a class="btn btn-outline-secondary btn-sm mb-3" asp-action="Dashboard">&larr; Back to Dashboard</a>
+    <div class="alert alert-warning border-0">
+        <strong>&#9888; This job was rejected by the admin.</strong>
+        <br />
+        <span class="text-danger fw-semibold">Reason: @ViewBag.RejectionReason</span>
+        <br />
+        Please correct the information below and resubmit. After resubmitting, the admin will review it again.
+    </div>
+    <h1 class="h3 fw-bold mb-1">Edit &amp; Resubmit Job</h1>
+</div>
+
+<section class="card shadow-sm border-0 mb-4">
+    <div class="card-body p-4 p-lg-5">
+        <form method="post" asp-action="EditJob" asp-route-id="@jobId" class="row g-3">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-danger small"></div>
+            <div class="col-md-6">
+                <label asp-for="Title" class="form-label"></label>
+                <input asp-for="Title" class="form-control" placeholder="e.g. Junior .NET Developer" />
+                <span asp-validation-for="Title" class="text-danger small"></span>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="Category" class="form-label"></label>
+                <input asp-for="Category" class="form-control" placeholder="e.g. Software Development" />
+                <span asp-validation-for="Category" class="text-danger small"></span>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="Location" class="form-label"></label>
+                <input asp-for="Location" class="form-control" placeholder="Remote, Hybrid, On-site" />
+                <span asp-validation-for="Location" class="text-danger small"></span>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="EmploymentType" class="form-label"></label>
+                <input asp-for="EmploymentType" class="form-control" placeholder="Full-time, Internship" />
+                <span asp-validation-for="EmploymentType" class="text-danger small"></span>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="ExperienceLevel" class="form-label"></label>
+                <input asp-for="ExperienceLevel" class="form-control" placeholder="Entry-level, Student" />
+                <span asp-validation-for="ExperienceLevel" class="text-danger small"></span>
+            </div>
+            <div class="col-12">
+                <label asp-for="RequiredSkills" class="form-label"></label>
+                <input asp-for="RequiredSkills" class="form-control" placeholder="C#, ASP.NET Core, SQL" />
+                <span asp-validation-for="RequiredSkills" class="text-danger small"></span>
+            </div>
+            <div class="col-12">
+                <label asp-for="Description" class="form-label"></label>
+                <textarea asp-for="Description" class="form-control" rows="6"></textarea>
+                <span asp-validation-for="Description" class="text-danger small"></span>
+            </div>
+            <div class="col-12 mt-4 pt-3 border-top">
+                <h4 class="h5 mb-3 fw-semibold">Optional Assessment</h4>
+            </div>
+            <div class="col-12">
+                <label asp-for="AssessmentPrompt" class="form-label">Assessment Prompt / Question</label>
+                <input asp-for="AssessmentPrompt" class="form-control" />
+                <span asp-validation-for="AssessmentPrompt" class="text-danger small"></span>
+            </div>
+            <div class="col-12">
+                <label asp-for="AssessmentExpectedAnswer" class="form-label">Expected Answer / Keyword (Optional)</label>
+                <input asp-for="AssessmentExpectedAnswer" class="form-control" />
+                <span asp-validation-for="AssessmentExpectedAnswer" class="text-danger small"></span>
+            </div>
+            <div class="col-12 d-flex gap-2 pt-3 mt-4 border-top">
+                <button class="btn btn-success" type="submit">Resubmit for Approval</button>
+                <a class="btn btn-outline-secondary" asp-action="Dashboard">Cancel</a>
+            </div>
+        </form>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

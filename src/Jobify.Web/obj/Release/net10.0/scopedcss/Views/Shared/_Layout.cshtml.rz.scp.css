@@ -1,0 +1,62 @@
+/* Scoped layout overrides — synced with dark theme tokens in site.css */
+
+a.navbar-brand[b-j731k6m17n] {
+  white-space: normal;
+  word-break: normal;
+}
+
+/* ── Button primary (Bootstrap override) ─────────────────── */
+.btn-primary[b-j731k6m17n] {
+  color: #fff !important;
+  background: linear-gradient(135deg, var(--j-violet, #8b5cf6), var(--j-teal, #2dd4bf));
+  border-color: transparent;
+}
+.btn-primary:hover[b-j731k6m17n],
+.btn-primary:focus[b-j731k6m17n] {
+  background: linear-gradient(135deg, #7c3aed, #0d9488);
+  border-color: transparent;
+  color: #fff !important;
+}
+
+/* ── Button outline primary ──────────────────────────────── */
+.btn-outline-primary[b-j731k6m17n] {
+  color: var(--j-violet, #8b5cf6);
+  border-color: rgba(139, 92, 246, 0.4);
+}
+.btn-outline-primary:hover[b-j731k6m17n],
+.btn-outline-primary:focus[b-j731k6m17n] {
+  background-color: rgba(139, 92, 246, 0.12);
+  border-color: var(--j-violet, #8b5cf6);
+  color: var(--j-violet, #8b5cf6);
+}
+
+/* ── Nav pills active ────────────────────────────────────── */
+.nav-pills .nav-link.active[b-j731k6m17n],
+.nav-pills .show > .nav-link[b-j731k6m17n] {
+  color: var(--j-teal, #2dd4bf) !important;
+  background-color: rgba(45, 212, 191, 0.12);
+}
+
+/* ── Badges ──────────────────────────────────────────────── */
+.badge.text-bg-primary[b-j731k6m17n] {
+  background-color: rgba(139,92,246,.2) !important;
+  color: var(--j-violet, #8b5cf6) !important;
+}
+.badge.text-bg-success[b-j731k6m17n] {
+  background-color: rgba(45,212,191,.15) !important;
+  color: var(--j-teal, #2dd4bf) !important;
+}
+
+/* ── Form focus ring ─────────────────────────────────────── */
+.form-control:focus[b-j731k6m17n],
+.form-select:focus[b-j731k6m17n] {
+  border-color: rgba(139, 92, 246, 0.5);
+  box-shadow: 0 0 0 0.2rem rgba(139, 92, 246, 0.15);
+}
+
+/* ── Alert info ──────────────────────────────────────────── */
+.alert-info[b-j731k6m17n] {
+  background-color: rgba(139, 92, 246, 0.1);
+  border-color: rgba(139, 92, 246, 0.2);
+  color: var(--j-violet, #8b5cf6);
+}

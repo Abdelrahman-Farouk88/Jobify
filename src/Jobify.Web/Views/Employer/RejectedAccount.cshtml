@@ -1,0 +1,18 @@
+@{
+    ViewData["Title"] = "Account Rejected";
+}
+
+<div class="py-5 text-center mt-5">
+    <div class="display-1 mb-4">&#10060;</div>
+    <h1 class="h2 fw-bold mb-3 text-danger">Account Rejected</h1>
+    <div class="alert alert-danger border-0 d-inline-block px-5 py-4 rounded-3 shadow-sm mb-4" style="max-width: 600px;">
+        <p class="mb-0 lead">
+            Your employer account has been <strong>rejected</strong> due to dishonest or inaccurate information provided during registration.
+            You are not permitted to access the dashboard, post jobs, or use any employer features.
+        </p>
+    </div>
+    <p class="text-muted">
+        If you believe this is a mistake, please contact the platform administrator.
+    </p>
+    <a class="btn btn-outline-secondary mt-3" asp-controller="Home" asp-action="Index">Return to Home</a>
+</div>

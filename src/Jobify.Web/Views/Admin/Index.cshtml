@@ -1,0 +1,259 @@
+@model Jobify.Web.Models.AdminDashboardViewModel
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="py-4 mb-4 border-bottom">
+    <p class="text-muted small text-uppercase fw-bold mb-1">Admin Panel</p>
+    <h1 class="h2 fw-bold mb-1">Admin Dashboard</h1>
+    <p class="text-muted">Manage users, review job postings, and oversee platform activity.</p>
+</div>
+
+<section class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="dashboard-card h-100">
+            <h2 class="h6 text-uppercase text-muted mb-2 fw-bold">Job Seekers</h2>
+            <p class="display-6 fw-semibold mb-0">@Model.JobSeekerCount</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="dashboard-card h-100">
+            <h2 class="h6 text-uppercase text-muted mb-2 fw-bold">Employers</h2>
+            <p class="display-6 fw-semibold mb-0" style="color: var(--j-cyan);">@Model.EmployerCount</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="dashboard-card h-100">
+            <h2 class="h6 text-uppercase text-muted mb-2 fw-bold">Total Jobs</h2>
+            <p class="display-6 fw-semibold mb-0" style="color: var(--j-violet);">@Model.JobCount</p>
+        </div>
+    </div>
+</section>
+
+<div class="d-flex justify-content-end mb-3">
+    <a class="btn btn-outline-secondary btn-sm" asp-action="Reports">View Reports</a>
+</div>
+
+<section class="card shadow-sm border-0 mb-4">
+    <div class="card-body p-4">
+        <h2 class="h5 mb-4 fw-semibold" style="color: var(--j-cyan);">Application Statistics</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="text-muted small text-uppercase fw-semibold mb-1">Total Applications</div>
+                <div class="h2 mb-0">@Model.ApplicationCount</div>
+            </div>
+            <div class="col-md-4">
+                <div class="text-muted small text-uppercase fw-semibold mb-1">Submitted</div>
+                <div class="h2 mb-0" style="color: var(--j-violet);">@Model.SubmittedApplications</div>
+            </div>
+            <div class="col-md-4">
+                <div class="text-muted small text-uppercase fw-semibold mb-1">Reviewed</div>
+                <div class="h2 mb-0" style="color: var(--j-cyan);">@Model.ReviewedApplications</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="card shadow-sm border-0 mb-4">
+    <div class="card-body p-4">
+        <h2 class="h5 mb-4 fw-semibold" style="color: var(--j-cyan);">Job Status Overview</h2>
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="text-muted small text-uppercase fw-semibold mb-1">Active Jobs</div>
+                <div class="h2 mb-0 text-success">@Model.ActiveJobs</div>
+            </div>
+            <div class="col-md-6">
+                <div class="text-muted small text-uppercase fw-semibold mb-1">Inactive Jobs</div>
+                <div class="h2 mb-0 text-warning">@Model.InactiveJobs</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@if (Model.PendingEmployers.Any())
+{
+    <section class="card shadow-sm border-0 mb-4 border-start border-4 border-warning">
+        <div class="card-body p-4">
+            <h2 class="h5 mb-4 fw-semibold text-warning">Pending Employer Approvals</h2>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Company Name</th>
+                            <th>Email</th>
+                            <th>Website</th>
+                            <th>Description</th>
+                            <th>Registered</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var employer in Model.PendingEmployers)
+                        {
+                            <tr>
+                                <td><a asp-action="ViewEmployer" asp-route-profileId="@employer.ProfileId" class="fw-semibold text-decoration-none">@employer.CompanyName</a></td>
+                                <td>@employer.Email</td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(employer.Website))
+                                    {
+                                        <a href="@employer.Website" target="_blank" rel="noopener">@employer.Website</a>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">—</span>
+                                    }
+                                </td>
+                                <td class="text-muted small">@(employer.Description.Length > 80 ? employer.Description[..80] + "…" : employer.Description)</td>
+                                <td class="text-muted small">@employer.RegisteredAt.ToString("d MMM yyyy")</td>
+                                <td>
+                                    <form method="post" asp-action="ApproveEmployer" class="d-inline">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="profileId" value="@employer.ProfileId" />
+                                        <button type="submit" class="btn btn-sm btn-success">Approve</button>
+                                    </form>
+                                    <form method="post" asp-action="RejectEmployer" class="d-inline ms-1">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="profileId" value="@employer.ProfileId" />
+                                        <button type="submit" class="btn btn-sm btn-danger">Reject</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+}
+
+<section class="card shadow-sm border-0 mb-4">
+    <div class="card-body p-4">
+        <h2 class="h5 mb-4 fw-semibold" style="color: var(--j-cyan);">Pending Job Approvals</h2>
+        @if (!Model.PendingJobs.Any())
+        {
+            <p class="text-muted">No jobs pending approval.</p>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Job Title</th>
+                            <th>Employer</th>
+                            <th>Category</th>
+                            <th>Posted Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var job in Model.PendingJobs)
+                        {
+                            <tr>
+                                <td><a asp-controller="Jobs" asp-action="Details" asp-route-id="@job.Id" class="fw-semibold text-decoration-none" target="_blank">@job.Title</a></td>
+                                <td>@job.EmployerName</td>
+                                <td><span class="badge bg-light text-dark border">@job.Category</span></td>
+                                <td class="text-muted small">@job.PostedAtUtc.ToString("d MMM yyyy")</td>
+                                <td>
+                                    <a asp-controller="Jobs" asp-action="Details" asp-route-id="@job.Id"
+                                       class="btn btn-sm btn-outline-secondary me-1" target="_blank">View Details</a>
+                                    <form method="post" asp-action="ApproveJob" class="d-inline">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@job.Id" />
+                                        <button type="submit" class="btn btn-sm btn-success">Approve</button>
+                                    </form>
+                                    <button type="button" class="btn btn-sm btn-danger ms-1" data-bs-toggle="modal" data-bs-target="#rejectJobModal-@job.Id">
+                                        Reject
+                                    </button>
+
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</section>
+
+<section class="card shadow-sm border-0">
+    <div class="card-body p-4">
+        <h2 class="h5 mb-4 fw-semibold" style="color: var(--j-cyan);">User Registry</h2>
+        @if (!Model.Users.Any())
+        {
+            <p class="text-muted">No users found.</p>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Display Name</th>
+                            <th>User ID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model.Users)
+                        {
+                            <tr>
+                                <td>@user.Email</td>
+                                <td>
+                                    <span class="badge @(user.Role == "Employer" ? "bg-primary" : (user.Role == "JobSeeker" ? "bg-success" : "bg-secondary"))">
+                                        @user.Role
+                                    </span>
+                                </td>
+                                <td>@user.DisplayName</td>
+                                <td class="text-muted small">@user.Id</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</section>
+
+@section Scripts {
+    @foreach (var job in Model.PendingJobs)
+    {
+        <!-- Reject Job Modal -->
+        <div class="modal fade reject-job-modal" id="rejectJobModal-@job.Id" tabindex="-1" aria-labelledby="rejectJobModalLabel-@job.Id" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form method="post" asp-action="RejectJob">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@job.Id" />
+                        <div class="modal-header border-0 pb-0">
+                            <h5 class="modal-title fw-bold" id="rejectJobModalLabel-@job.Id">Reject Job Posting</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Please provide a reason for rejecting the job "<strong>@job.Title</strong>". This will be shown to the employer.</p>
+                            <div class="mb-3">
+                                <label for="reason-@job.Id" class="form-label">Rejection Reason</label>
+                                <textarea class="form-control" id="reason-@job.Id" name="reason" rows="3" required></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer border-0 pt-0">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-danger">Confirm Rejection</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    }
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Move all reject modals to the body to prevent backdrop issues
+            const modals = document.querySelectorAll('.reject-job-modal');
+            modals.forEach(function(modal) {
+                document.body.appendChild(modal);
+            });
+        });
+    </script>
+}

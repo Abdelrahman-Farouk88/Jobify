@@ -1,0 +1,128 @@
+@model Jobify.Web.Models.CandidateProfileInputModel
+@{
+    ViewData["Title"] = "Your Profile";
+    var matches = ViewBag.TopMatches as IList<Jobify.Web.Models.JobSearchResultViewModel>;
+}
+
+<div class="row g-4">
+    <div class="col-lg-7">
+        <section class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-4 p-lg-5">
+                <p class="text-muted small text-uppercase fw-bold mb-1">Job Seeker Profile</p>
+                <h1 class="h3 mb-2 fw-bold">Your Details</h1>
+                <p class="text-muted mb-4">Keep your details current so your matches stay relevant.</p>
+
+                @if (!string.IsNullOrWhiteSpace(Model.CurrentResumeFileName))
+                {
+                    <div class="alert alert-info border-0 mb-4">
+                        Current CV loaded: <a href="@Model.CurrentResumeUrl" target="_blank" class="fw-medium text-info text-decoration-underline">@Model.CurrentResumeFileName</a>
+                    </div>
+                }
+
+                <form method="post" enctype="multipart/form-data" class="row g-3">
+                    <div asp-validation-summary="ModelOnly" class="text-danger small"></div>
+                    <div class="col-md-6">
+                        <label asp-for="FullName" class="form-label"></label>
+                        <input asp-for="FullName" class="form-control" />
+                        <span asp-validation-for="FullName" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Headline" class="form-label"></label>
+                        <input asp-for="Headline" class="form-control" placeholder="e.g. Junior .NET Developer" />
+                        <span asp-validation-for="Headline" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Location" class="form-label"></label>
+                        <input asp-for="Location" class="form-control" placeholder="Remote, Hybrid, On-site" />
+                        <span asp-validation-for="Location" class="text-danger small"></span>
+                    </div>
+                    <div class="col-12">
+                        <label asp-for="Skills" class="form-label"></label>
+                        <input asp-for="Skills" class="form-control" placeholder="C#, SQL, Excel, Figma" />
+                        <span asp-validation-for="Skills" class="text-danger small"></span>
+                    </div>
+                    <div class="col-12">
+                        <label asp-for="ExperienceSummary" class="form-label"></label>
+                        <textarea asp-for="ExperienceSummary" class="form-control" rows="5" placeholder="Brief summary of your experience and projects"></textarea>
+                        <span asp-validation-for="ExperienceSummary" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-12 mt-4 pt-4 border-top" style="border-color: var(--j-dim) !important;">
+                        <h2 class="h5 mb-3 fw-semibold">Portfolio Links</h2>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="PortfolioLink1" class="form-label">Portfolio Link 1</label>
+                        <input asp-for="PortfolioLink1" class="form-control" type="url" placeholder="https://..." />
+                        <span asp-validation-for="PortfolioLink1" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="PortfolioLink2" class="form-label">Portfolio Link 2</label>
+                        <input asp-for="PortfolioLink2" class="form-control" type="url" placeholder="https://..." />
+                        <span asp-validation-for="PortfolioLink2" class="text-danger small"></span>
+                    </div>
+                    <div class="col-12">
+                        <label asp-for="ResumeFile" class="form-label">Upload CV</label>
+                        <div class="dropzone">
+                            <div class="dropzone__icon">📄</div>
+                            <div class="dropzone__text">Drag and drop CV here or <span>browse</span></div>
+                            <div class="dropzone__filename mt-2 text-primary fw-bold"></div>
+                            <input asp-for="ResumeFile" type="file" class="d-none" accept=".pdf,.docx,.txt" />
+                        </div>
+                        <span asp-validation-for="ResumeFile" class="text-danger small"></span>
+                        <div class="form-text mt-2">PDF, DOCX, or TXT. Uploading a new file will update your matches.</div>
+                    </div>
+                    <div class="col-12 d-flex gap-2 pt-3 border-top mt-4" style="border-color: var(--j-dim) !important;">
+                        <button class="btn btn-primary" type="submit">Update Profile</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <div class="col-lg-5">
+        @if (matches != null && matches.Any())
+        {
+            <div class="mt-0 pt-0 border-0">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="h5 mb-0 fw-bold">Job Matches</h2>
+                </div>
+                
+                <div class="d-flex flex-column gap-3">
+                    @foreach (var match in matches)
+                    {
+                        <a href="/Jobs/Details/@match.Job.Id" class="text-decoration-none card shadow-sm mb-3">
+                            <div class="card-body d-flex gap-3 align-items-center p-3">
+                                <div class="bg-light rounded p-2 text-center border">
+                                    <div class="fw-bold text-primary">@(Math.Round((match.MatchScore) ?? 0))%</div>
+                                    <div class="small text-muted" style="font-size: 0.7rem;">FIT</div>
+                                </div>
+                            <div class="match-job-card__info ms-2">
+                                <div class="text-muted fw-bold small text-uppercase">@match.Job.Category</div>
+                                <div class="fw-bold text-dark">@match.Job.Title</div>
+                                <div class="small text-muted mb-1">@match.Job.EmployerName &middot; @match.Job.Location</div>
+                                @if (match.MatchReasons != null && match.MatchReasons.Any())
+                                {
+                                    <div class="small text-muted fst-italic">
+                                        @string.Join(" · ", match.MatchReasons.Take(2))
+                                    </div>
+                                }
+                            </div>
+                            </div>
+                        </a>
+                    }
+                </div>
+            </div>
+        }
+        else if (Model.CurrentResumeFileName == null)
+        {
+            <div class="empty-state h-100 d-flex flex-column justify-content-center border rounded p-4 text-center">
+                <p class="mb-2 fw-bold">Awaiting Resume</p>
+                <p class="small text-muted mb-0">Upload your CV to see relevant job matches.</p>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

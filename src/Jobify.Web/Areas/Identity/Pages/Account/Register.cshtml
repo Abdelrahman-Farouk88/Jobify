@@ -1,0 +1,105 @@
+@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Create account";
+}
+
+<section class="auth-panel">
+    <div class="auth-panel__intro">
+        <p class="eyebrow">Get started</p>
+        <h1>Join Jobify and start hiring or applying in minutes.</h1>
+        <p class="text-muted">Choose whether you are looking for a role or posting openings for your team.</p>
+    </div>
+
+    <div class="auth-panel__card">
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="row g-3">
+            <div asp-validation-summary="ModelOnly" class="text-danger small" role="alert"></div>
+
+            <div class="col-12">
+                <label asp-for="Input.Email" class="form-label"></label>
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" placeholder="you@example.com" />
+                <span asp-validation-for="Input.Email" class="text-danger small"></span>
+            </div>
+
+            <div class="col-12">
+                <label asp-for="Input.Role" class="form-label"></label>
+                <div class="role-picker">
+                    <label class="role-picker__option">
+                        <input asp-for="Input.Role" type="radio" value="JobSeeker" />
+                        <span>
+                            <strong>Job seeker</strong>
+                            <small>Search roles, upload your CV, and apply.</small>
+                        </span>
+                    </label>
+                    <label class="role-picker__option">
+                        <input asp-for="Input.Role" type="radio" value="Employer" />
+                        <span>
+                            <strong>Employer</strong>
+                            <small>Post jobs and review applicants.</small>
+                        </span>
+                    </label>
+                </div>
+                <span asp-validation-for="Input.Role" class="text-danger small"></span>
+            </div>
+
+            <div id="employerFields" style="display: none; width: 100%;">
+                <div class="col-12 mb-3">
+                    <label asp-for="Input.CompanyName" class="form-label"></label>
+                    <input asp-for="Input.CompanyName" class="form-control" />
+                    <span asp-validation-for="Input.CompanyName" class="text-danger small"></span>
+                </div>
+                <div class="col-12 mb-3">
+                    <label asp-for="Input.CompanyWebsite" class="form-label"></label>
+                    <input asp-for="Input.CompanyWebsite" class="form-control" placeholder="https://" />
+                    <span asp-validation-for="Input.CompanyWebsite" class="text-danger small"></span>
+                </div>
+                <div class="col-12 mb-3">
+                    <label asp-for="Input.CompanyDescription" class="form-label"></label>
+                    <textarea asp-for="Input.CompanyDescription" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="Input.CompanyDescription" class="text-danger small"></span>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="Input.Password" class="form-label"></label>
+                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" />
+                <span asp-validation-for="Input.Password" class="text-danger small"></span>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="Input.ConfirmPassword" class="form-label"></label>
+                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger small"></span>
+            </div>
+
+            <div class="col-12 d-grid">
+                <button id="registerSubmit" type="submit" class="btn btn-primary btn-lg">Create account</button>
+            </div>
+
+            <div class="col-12 text-center small text-muted">
+                Already have an account? <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Sign in</a>
+            </div>
+        </form>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const roleRadios = document.querySelectorAll('input[name="Input.Role"]');
+            const employerFields = document.getElementById('employerFields');
+
+            function toggleFields() {
+                const selectedRole = document.querySelector('input[name="Input.Role"]:checked')?.value;
+                if (selectedRole === 'Employer') {
+                    employerFields.style.display = 'block';
+                } else {
+                    employerFields.style.display = 'none';
+                }
+            }
+
+            roleRadios.forEach(radio => radio.addEventListener('change', toggleFields));
+            toggleFields();
+        });
+    </script>
+}

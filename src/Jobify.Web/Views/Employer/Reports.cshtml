@@ -1,0 +1,103 @@
+@model Jobify.Web.Models.EmployerReportsViewModel
+@{
+    ViewData["Title"] = "Telemetry";
+}
+
+<div class="jobify-page-hero mb-4">
+    <p class="text-muted small text-uppercase fw-bold mb-1">Employer Console</p>
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 fw-semibold">Intelligence Reports</h1>
+    </div>
+</div>
+
+<section class="card shadow-sm border-0 mb-4">
+    <div class="card-body p-4">
+        <h2 class="h5 mb-4 fw-semibold text-primary">Pipeline Metrics</h2>
+        <div class="row g-4">
+            <div class="col-md-3 col-6">
+                <div class="text-muted small text-uppercase mono mb-1">Jobs Posted</div>
+                <div class="h2 mb-0">@Model.JobsPosted</div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="text-muted small text-uppercase mono mb-1">Active Jobs</div>
+                <div class="h2 mb-0 text-success">@Model.ActiveJobs</div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="text-muted small text-uppercase mono mb-1">Applications</div>
+                <div class="h2 mb-0" style="color: var(--j-violet);">@Model.TotalApplications</div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="text-muted small text-uppercase mono mb-1">Review Backlog</div>
+                <div class="h2 mb-0 text-info">@Model.ReviewBacklog</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="card shadow-sm border-0 mb-4">
+    <div class="card-body p-4">
+        <h2 class="h5 mb-4 fw-semibold text-primary">Application Status Breakdown</h2>
+        @if (Model.ApplicationStatusCounts.Count == 0)
+        {
+            <div class="empty-state py-4">
+                <p class="mb-0">No application data available yet.</p>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Status</th>
+                            <th class="text-end">Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var stat in Model.ApplicationStatusCounts)
+                        {
+                            <tr>
+                                <td class="fw-medium text-white">@stat.Label</td>
+                                <td class="text-end mono">@stat.Count</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</section>
+
+<section class="card shadow-sm border-0 mt-4 mb-4">
+    <div class="card-body p-4">
+        <h2 class="h5 mb-4 fw-semibold text-primary">Job Categories Breakdown</h2>
+        @if (Model.JobCategoryCounts.Count == 0)
+        {
+            <div class="empty-state py-4">
+                <p class="mb-0">No job category data available yet.</p>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th class="text-end">Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var stat in Model.JobCategoryCounts)
+                        {
+                            <tr>
+                                <td class="fw-medium text-white">@stat.Label</td>
+                                <td class="text-end mono">@stat.Count</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</section>

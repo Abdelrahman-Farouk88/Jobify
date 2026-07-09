@@ -1,0 +1,100 @@
+@model Jobify.Web.Models.JobSearchViewModel
+@{
+    ViewData["Title"] = "Search Jobs";
+}
+
+<div class="py-4 mb-4 border-bottom">
+    <p class="text-muted small text-uppercase fw-bold mb-1">Job Directory</p>
+    <h1 class="h2 fw-bold mb-1">Available Jobs</h1>
+    <p class="text-muted">Browse open roles and find your next opportunity.</p>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-4 col-xl-3">
+        <aside class="search-panel sticky-top" style="top: 100px;">
+            <form method="get" class="d-grid gap-3">
+                <div>
+                    <label class="form-label" asp-for="Search">Keyword / Title</label>
+                    <input class="form-control" asp-for="Search" placeholder="e.g. Developer, Data..." />
+                </div>
+                <div>
+                    <label class="form-label" asp-for="Category">Category</label>
+                    <select class="form-select" asp-for="Category">
+                        <option value="">All Categories</option>
+                        @foreach (var cat in Model.Categories)
+                        {
+                            <option value="@cat">@cat</option>
+                        }
+                    </select>
+                </div>
+                <div>
+                    <label class="form-label" asp-for="Location">Location</label>
+                    <input class="form-control" asp-for="Location" placeholder="e.g. Remote, London" />
+                </div>
+                <button type="submit" class="btn btn-primary mt-2">Update Search</button>
+            </form>
+        </aside>
+    </div>
+    
+    <div class="col-lg-8 col-xl-9">
+        @if (Model.Jobs.Count == 0)
+        {
+            <div class="empty-state">
+                <p class="mb-0">No matching jobs found. Try adjusting your search parameters.</p>
+            </div>
+        }
+        else
+        {
+            <div class="row g-3">
+                @foreach (var result in Model.Jobs)
+                {
+                    <div class="col-12">
+                        <div class="card shadow-sm border-0 mb-3 @((result.MatchScore) > 75 ? "border-start border-4 border-primary" : "")">
+                            <div class="card-body p-4 d-flex flex-column flex-md-row gap-4 align-items-md-center">
+                                <div class="flex-grow-1">
+                                    <div class="d-flex align-items-center gap-2 mb-2">
+                                        <span class="text-muted fw-bold small text-uppercase">@result.Job.Category</span>
+                                        @if (result.MatchScore > 0)
+                                        {
+                                            <span class="badge @(result.MatchSource == "ML" ? "bg-info" : "bg-secondary")">
+                                                @(result.MatchSource == "ML" ? "AI MATCH" : "KEYWORD MATCH")
+                                            </span>
+                                        }
+                                    </div>
+                                    <h2 class="h5 mb-1 fw-bold">
+                                        <a asp-action="Details" asp-route-id="@result.Job.Id" class="text-dark text-decoration-none">
+                                            @result.Job.Title
+                                        </a>
+                                    </h2>
+                                    <p class="small text-muted mb-3">@result.Job.EmployerName &middot; @result.Job.Location</p>
+                                    
+                                    <div class="job-tags">
+                                        <span class="badge text-bg-light">@result.Job.EmploymentType</span>
+                                        <span class="badge text-bg-secondary">@result.Job.ExperienceLevel</span>
+                                    </div>
+                                </div>
+                                
+                                @if (result.MatchScore > 0)
+                                {
+                                    <div class="text-md-end ms-md-4 mt-3 mt-md-0 d-flex flex-column align-items-md-end">
+                                        <div class="mb-2 text-center p-2 rounded" style="background: var(--bs-light); border: 1px solid var(--bs-border-color);">
+                                            <div class="fw-bold" style="color: var(--bs-primary); font-size: 1.25rem; line-height: 1;">@(Math.Round((result.MatchScore) ?? 0))%</div>
+                                            <div class="small text-muted" style="font-size: 0.65rem; letter-spacing: 0.05em;">MATCH</div>
+                                        </div>
+                                        <a class="btn btn-outline-primary btn-sm" asp-action="Details" asp-route-id="@result.Job.Id">Details &rarr;</a>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="text-md-end ms-md-4 mt-3 mt-md-0">
+                                        <a class="btn btn-outline-secondary btn-sm" asp-action="Details" asp-route-id="@result.Job.Id">Details &rarr;</a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>

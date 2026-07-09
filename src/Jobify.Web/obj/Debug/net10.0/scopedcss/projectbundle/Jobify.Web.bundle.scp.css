@@ -1,0 +1,51 @@
+/* /Views/Shared/_Layout.cshtml.rz.scp.css */
+/* Scoped Bootstrap overrides — Mission Control theme */
+
+a.navbar-brand[b-j731k6m17n] { white-space: normal; word-break: normal; }
+
+.btn-primary[b-j731k6m17n] {
+  color: var(--j-cyan, #00d4ff) !important;
+  background: transparent !important;
+  border-color: var(--j-cyan, #00d4ff) !important;
+}
+.btn-primary:hover[b-j731k6m17n], .btn-primary:focus[b-j731k6m17n] {
+  background: rgba(0,212,255,.15) !important;
+  border-color: var(--j-cyan, #00d4ff) !important;
+  box-shadow: 0 0 20px rgba(0,212,255,.3) !important;
+}
+
+.btn-outline-primary[b-j731k6m17n] {
+  color: var(--j-cyan, #00d4ff);
+  border-color: rgba(0,212,255,.35);
+}
+.btn-outline-primary:hover[b-j731k6m17n], .btn-outline-primary:focus[b-j731k6m17n] {
+  background-color: rgba(0,212,255,.12);
+  border-color: var(--j-cyan, #00d4ff);
+  color: var(--j-cyan, #00d4ff);
+  box-shadow: 0 0 20px rgba(0,212,255,.25);
+}
+
+.nav-pills .nav-link.active[b-j731k6m17n], .nav-pills .show > .nav-link[b-j731k6m17n] {
+  color: var(--j-cyan, #00d4ff) !important;
+  background-color: rgba(0,212,255,.12);
+}
+
+.badge.text-bg-primary[b-j731k6m17n] {
+  background-color: rgba(0,212,255,.15) !important;
+  color: var(--j-cyan, #00d4ff) !important;
+}
+.badge.text-bg-success[b-j731k6m17n] {
+  background-color: rgba(0,255,136,.12) !important;
+  color: #00ff88 !important;
+}
+
+.form-control:focus[b-j731k6m17n], .form-select:focus[b-j731k6m17n] {
+  border-color: var(--j-cyan, #00d4ff);
+  box-shadow: 0 0 0 2px rgba(0,212,255,.2);
+}
+
+.alert-info[b-j731k6m17n] {
+  background-color: rgba(0,212,255,.08);
+  border-color: rgba(0,212,255,.18);
+  color: var(--j-cyan, #00d4ff);
+}

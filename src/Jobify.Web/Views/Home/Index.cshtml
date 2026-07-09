@@ -1,0 +1,69 @@
+@{
+    ViewData["Title"] = "Jobify — Early-Career Hiring Platform";
+}
+
+<div class="hero-section">
+    <section class="hero-panel">
+        <div class="hero-copy">
+            <h1>
+                Find your <span class="gradient-text">dream job</span><br/>
+            </h1>
+            <div class="hero-status">
+                <span class="hero-status__dot"></span>
+                Thousands of Jobs Available
+            </div>
+            <p class="hero-lead">
+                Jobify connects students, graduates, and startups through our
+                recruitment platform. Upload your CV, get relevant matches, and apply
+                to roles built for early-career talent.
+            </p>
+            <div class="hero-actions">
+                <a class="btn btn-success btn-lg" asp-controller="Jobs" asp-action="Index">
+                    Browse Jobs
+                </a>
+                <a class="btn btn-outline-secondary btn-lg" asp-area="Identity" asp-page="/Account/Register">
+                    Create Account
+                </a>
+            </div>
+        </div>
+
+        <div class="hero-stats">
+            <div class="stat-card reveal reveal-delay-1">
+                <span>For job seekers</span>
+                <strong>Upload CV &rarr; Match &rarr; Apply</strong>
+            </div>
+            <div class="stat-card reveal reveal-delay-2">
+                <span>For employers</span>
+                <strong>Post jobs &amp; review applicants</strong>
+            </div>
+            <div class="stat-card reveal reveal-delay-3">
+                <span>Matching engine</span>
+                <strong>Skills matching</strong>
+            </div>
+            <div class="stat-card reveal reveal-delay-4">
+                <span>Platform status</span>
+                <strong style="color: var(--j-cyan); font-size:.8rem;">Fully Operational</strong>
+            </div>
+        </div>
+    </section>
+</div>
+
+<hr class="neon-hr mt-4" />
+
+<section class="feature-grid mt-4">
+    <article class="feature-card reveal">
+        <div class="feature-card__icon">&#128269;</div>
+        <h2>Focused Job Search</h2>
+        <p>Filter by title, category, location, or skills. Surface roles built for early-career candidates — no noise, no seniority gatekeeping.</p>
+    </article>
+    <article class="feature-card reveal reveal-delay-1">
+        <div class="feature-card__icon">&#129302;</div>
+        <h2>CV Matching</h2>
+        <p>Upload your resume and receive instant job matches. Our system compares every role against your profile in real time.</p>
+    </article>
+    <article class="feature-card reveal reveal-delay-2">
+        <div class="feature-card__icon">&#128200;</div>
+        <h2>Employer Pipeline</h2>
+        <p>Post openings, track every application, move candidates through review stages, and access hiring performance reports.</p>
+    </article>
+</section>
