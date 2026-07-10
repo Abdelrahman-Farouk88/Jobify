@@ -5,23 +5,23 @@
 
 <div class="row justify-content-center">
     <div class="col-lg-8">
-        <a class="btn btn-outline-secondary btn-sm mb-4" asp-action="Index">&larr; Back to jobs</a>
-        
+        <a class="btn btn-outline-secondary btn-sm mb-4" asp-action="Index">Back to jobs</a>
+
         <article class="card shadow-sm border-0 mb-4">
             <div class="card-body p-4 p-lg-5">
                 <header class="mb-4 pb-4 border-bottom border-secondary" style="border-color: var(--j-dim) !important;">
                     <div class="d-flex justify-content-between align-items-start mb-2">
                         <p class="job-card__meta mb-0">@Model.Job.Category</p>
-                        @if (Model.MatchScore > 0)
+                        @if (Model.MatchScore > 0 && Model.MatchSource != "None")
                         {
-                            <span class="match-badge @(Model.MatchSource == "ML" ? "match-badge--ml" : "")">
-                                @(Model.MatchSource == "ML" ? "AI MATCH" : "KEYWORD MATCH")
-                            </span>
+                        <span class="match-badge @(Model.MatchSource == "ML" ? "match-badge--ml" : "")">
+                            @(Model.MatchSource == "ML" ? "AI MATCH" : "KEYWORD MATCH")
+                        </span>
                         }
                     </div>
                     <h1 class="h2 mb-2 fw-bold" style="color: var(--j-ink);">@Model.Job.Title</h1>
                     <p class="text-muted mb-0">@Model.Job.EmployerName &middot; @Model.Job.Location</p>
-                    
+
                     <div class="job-tags mt-3">
                         <span class="badge text-bg-light">@Model.Job.EmploymentType</span>
                         <span class="badge text-bg-secondary">@Model.Job.ExperienceLevel</span>
@@ -31,22 +31,43 @@
 
                 @if (Model.MatchScore > 0)
                 {
-                    <div class="mb-4 p-3 rounded" style="background: var(--j-cyan-dim); border: 1px solid var(--j-border-v);">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="match-ring" data-score="@(Model.MatchScore ?? 0)">
-                                <div class="match-ring__inner">
-                                    <div class="match-ring__score">@(Math.Round((Model.MatchScore) ?? 0))%</div>
-                                </div>
-                            </div>
-                            <div>
-                                <h3 class="h6 text-uppercase fw-bold mb-1" style="color: var(--j-cyan);">Match Score</h3>
-                                @if (Model.MatchReasons != null && Model.MatchReasons.Any())
-                                {
-                                    <p class="small text-muted mb-0">@string.Join(" &middot; ", Model.MatchReasons)</p>
-                                }
+                    var scoreColor = "var(--bs-danger)";
+                    if (Model.MatchScore >= 80) { scoreColor = "var(--bs-success)"; }
+                    else if (Model.MatchScore >= 60) { scoreColor = "var(--bs-warning)"; }
+                    else if (Model.MatchScore >= 40) { scoreColor = "var(--bs-info)"; }
+
+                <div class="mb-4 p-3 rounded" style="background: var(--j-cyan-dim); border: 1px solid var(--j-border-v);">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="match-ring" data-score="@(Model.MatchScore ?? 0)">
+                            <div class="match-ring__inner">
+                                <div class="match-ring__score" style="color: @scoreColor;">@(Math.Round((Model.MatchScore) ?? 0))%</div>
                             </div>
                         </div>
+                        <div>
+                            <h3 class="h6 text-uppercase fw-bold mb-1" style="color: var(--j-cyan);">Match Score</h3>
+                            @if (Model.MatchScore >= 80)
+                                {
+                            <p class="small text-success fw-bold mb-0">Excellent match!</p>
+                                }
+                                else if (Model.MatchScore >= 60)
+                                {
+                            <p class="small text-warning fw-bold mb-0">Good match</p>
+                                }
+                                else if (Model.MatchScore >= 40)
+                                {
+                            <p class="small text-info fw-bold mb-0">Moderate match</p>
+                                }
+                                else
+                                {
+                            <p class="small text-danger fw-bold mb-0">Low match</p>
+                                }
+                            @if (Model.MatchReasons != null && Model.MatchReasons.Any())
+                                {
+                            <p class="small text-muted mb-0">@string.Join(" &middot; ", Model.MatchReasons.Take(5))</p>
+                                }
+                        </div>
                     </div>
+                </div>
                 }
 
                 <div class="mb-4">
@@ -64,25 +85,25 @@
                 <div class="d-grid gap-2 d-sm-flex">
                     @if (Model.HasApplied)
                     {
-                        <button class="btn btn-outline-success" disabled>Already Applied</button>
+                    <button class="btn btn-outline-success" disabled>Already Applied</button>
                     }
                     else if (User.IsInRole("JobSeeker"))
                     {
                         if (Model.MatchScore < 50)
                         {
-                            <div>
-                                <button class="btn btn-outline-danger w-100" disabled title="Match score too low">Match Below 50% — Cannot Apply</button>
-                                <p class="text-danger small mt-2 mb-0">Your profile match is below the 50% threshold. Update your skills to apply.</p>
-                            </div>
+                    <div>
+                        <button class="btn btn-outline-danger w-100" disabled title="Match score too low">Match Below 50% - Cannot Apply</button>
+                        <p class="text-danger small mt-2 mb-0">Your profile match is below the 50% threshold. Update your skills to apply.</p>
+                    </div>
                         }
                         else
                         {
-                            <a class="btn btn-cta" asp-action="Apply" asp-route-id="@Model.Job.Id">Apply Now</a>
+                    <a class="btn btn-cta" asp-action="Apply" asp-route-id="@Model.Job.Id">Apply Now</a>
                         }
                     }
                     else if (!User.Identity?.IsAuthenticated ?? true)
                     {
-                        <a class="btn btn-outline-primary" asp-area="Identity" asp-page="/Account/Login">Log in to apply</a>
+                    <a class="btn btn-outline-primary" asp-area="Identity" asp-page="/Account/Login">Log in to apply</a>
                     }
                 </div>
             </div>
