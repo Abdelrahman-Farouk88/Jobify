@@ -36,13 +36,25 @@ public class RegisterModel(UserManager<IdentityUser> userManager, IUserStore<Ide
         public string? CompanyDescription { get; set; }
     }
 
-    public void OnGet(string? returnUrl = null)
+    public IActionResult OnGet(string? returnUrl = null)
     {
+        if (User.Identity.IsAuthenticated)
+        {
+            TempData["InfoMessage"] = "You are already logged in. Please logout first to create a new account.";
+            return RedirectToAction("Index", "Home");
+        }
+
         ReturnUrl = returnUrl;
+        return Page();
     }
 
     public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
     {
+        if (User.Identity.IsAuthenticated)
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
         returnUrl ??= Url.Content("~/");
         if (!ModelState.IsValid)
         {
