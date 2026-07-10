@@ -1,6 +1,192 @@
 ﻿@{
     ViewData["Title"] = "Privacy Policy";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<div class="container py-5">
+    <h1 class="display-4 mb-4">Privacy Policy</h1>
+    <p class="text-muted">Last updated: @DateTime.Now.ToString("MMMM dd, yyyy")</p>
+
+    <div class="row mt-4">
+        <div class="col-lg-10">
+            <section class="mb-5">
+                <h2 class="h4 mb-3">1. Introduction</h2>
+                <p>
+                    Jobify ("we", "our", "us") is committed to protecting your privacy. This Privacy Policy explains
+                    how we collect, use, disclose, and safeguard your information when you use our recruitment platform.
+                </p>
+                <p>
+                    By using Jobify, you agree to the collection and use of information in accordance with this policy.
+                </p>
+            </section>
+
+            <section class="mb-5">
+                <h2 class="h4 mb-3">2. Information We Collect</h2>
+                <h5 class="h6">Personal Information</h5>
+                <ul>
+                    <li><strong>Account Information:</strong> Name, email address, password, and account type (Job Seeker or Employer)</li>
+                    <li><strong>Profile Information:</strong> Professional experience, skills, education, location, portfolio links</li>
+                    <li><strong>Resume/CV:</strong> Uploaded documents containing your work history, education, and qualifications</li>
+                    <li><strong>Application Data:</strong> Job applications, saved jobs, and interview schedules</li>
+                    <li><strong>Employer Information:</strong> Company name, website, description, industry, location</li>
+                </ul>
+
+                <h5 class="h6 mt-3">Automatically Collected Information</h5>
+                <ul>
+                    <li><strong>Usage Data:</strong> Pages visited, time spent, features used, and navigation patterns</li>
+                    <li><strong>Device Information:</strong> Browser type, IP address, operating system, and device type</li>
+                    <li><strong>Cookies:</strong> We use cookies to remember your preferences and improve your experience</li>
+                </ul>
+            </section>
+
+            <section class="mb-5">
+                <h2 class="h4 mb-3">3. How We Use Your Information</h2>
+                <ul>
+                    <li><strong>To Provide Services:</strong> Match job seekers with relevant opportunities and help employers find qualified candidates</li>
+                    <li><strong>To Improve Our Platform:</strong> Analyze usage patterns and enhance user experience</li>
+                    <li><strong>To Communicate:</strong> Send application updates, job recommendations, and platform notifications</li>
+                    <li><strong>To Personalize:</strong> Tailor job recommendations based on your skills and preferences</li>
+                    <li><strong>To Ensure Security:</strong> Protect against unauthorized access and fraudulent activity</li>
+                </ul>
+            </section>
+
+            <section class="mb-5">
+                <h2 class="h4 mb-3">4. How We Share Your Information</h2>
+                <p>We may share your information in the following situations:</p>
+                <ul>
+                    <li><strong>With Employers:</strong> When you apply to a job, your profile and resume are shared with the hiring company</li>
+                    <li><strong>With Service Providers:</strong> Third-party vendors who assist with hosting, email delivery, and analytics</li>
+                    <li><strong>Legal Compliance:</strong> When required by law or to protect our rights</li>
+                    <li><strong>Business Transfers:</strong> If we merge, acquire, or sell assets, your information may be transferred</li>
+                </ul>
+                <div class="alert alert-info mt-3">
+                    <strong>Note:</strong> We do not sell your personal information to third parties.
+                </div>
+            </section>
+
+            <section class="mb-5">
+                <h2 class="h4 mb-3">5. Data Security</h2>
+                <ul>
+                    <li>We use industry-standard encryption (HTTPS) to protect data transmission</li>
+                    <li>Passwords are hashed and securely stored</li>
+                    <li>We implement access controls and regular security audits</li>
+                    <li>Despite our efforts, no method of transmission over the internet is 100% secure</li>
+                </ul>
+            </section>
+
+            <section class="mb-5">
+                <h2 class="h4 mb-3">6. Your Rights and Choices</h2>
+                <ul>
+                    <li><strong>Access:</strong> You can view and download your personal information from your profile</li>
+                    <li><strong>Update:</strong> Edit or correct your information at any time</li>
+                    <li><strong>Delete:</strong> Request deletion of your account and associated data</li>
+                    <li><strong>Opt-out:</strong> Unsubscribe from promotional emails using the link in our communications</li>
+                </ul>
+            </section>
+
+            <section class="mb-5">
+                <h2 class="h4 mb-3">7. Cookies and Tracking</h2>
+                <p>We use cookies to:</p>
+                <ul>
+                    <li>Remember your login status</li>
+                    <li>Save your preferences and settings</li>
+                    <li>Analyze site traffic and usage</li>
+                    <li>Personalize job recommendations</li>
+                </ul>
+                <p>You can control cookie preferences through your browser settings.</p>
+            </section>
+
+            <section class="mb-5">
+                <h2 class="h4 mb-3">8. Children's Privacy</h2>
+                <p>
+                    Jobify is not intended for individuals under the age of 16. We do not knowingly collect
+                    personal information from children. If you are a parent or guardian and believe your child
+                    has provided us with personal information, please contact us.
+                </p>
+            </section>
+
+            <section class="mb-5">
+                <h2 class="h4 mb-3">9. Data Retention</h2>
+                <p>
+                    We retain your personal information for as long as your account is active or as needed to
+                    provide services. After account deletion, we may retain certain information for legal,
+                    compliance, or legitimate business purposes.
+                </p>
+            </section>
+
+            <section class="mb-5">
+                <h2 class="h4 mb-3">10. International Data Transfers</h2>
+                <p>
+                    Your information may be transferred to and processed in countries other than your own.
+                    We ensure appropriate safeguards are in place for such transfers.
+                </p>
+            </section>
+
+            <section class="mb-5">
+                <h2 class="h4 mb-3">11. Changes to This Privacy Policy</h2>
+                <p>
+                    We may update this Privacy Policy from time to time. We will notify you of changes by
+                    posting the new policy on this page with an updated date. Please review periodically.
+                </p>
+            </section>
+
+            <section class="mb-5">
+                <h2 class="h4 mb-3">12. Contact Us</h2>
+                <p>If you have questions about this Privacy Policy, please contact us:</p>
+                <ul class="list-unstyled">
+                    <li><strong>Email:</strong> privacy@jobify.com</li>
+                    <li><strong>Address:</strong> Jobify Inc., 123 Tech Street, Silicon Valley, CA 94043</li>
+                    <li><strong>Phone:</strong> +1 (555) 123-4567</li>
+                </ul>
+            </section>
+
+            <section class="mb-5">
+                <h2 class="h4 mb-3">13. GDPR & CCPA Compliance</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">GDPR (EU)</h5>
+                                <p class="card-text">
+                                    If you are in the European Union, you have the right to:
+                                </p>
+                                <ul>
+                                    <li>Request data access and portability</li>
+                                    <li>Request data correction or deletion</li>
+                                    <li>Object to data processing</li>
+                                    <li>Withdraw consent at any time</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">CCPA (California)</h5>
+                                <p class="card-text">
+                                    If you are a California resident, you have the right to:
+                                </p>
+                                <ul>
+                                    <li>Know what personal data we collect</li>
+                                    <li>Request deletion of your data</li>
+                                    <li>Opt-out of data sharing</li>
+                                    <li>Non-discrimination for exercising your rights</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mt-5 p-4 bg-light rounded">
+                <h2 class="h4">Privacy Policy Acceptance</h2>
+                <p>
+                    By using Jobify, you signify your acceptance of this Privacy Policy. If you do not agree,
+                    please do not use our platform.
+                </p>
+                <div class="mt-3">
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Return to Home</a>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>

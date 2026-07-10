@@ -2,11 +2,20 @@
     ViewData["Title"] = "Jobify — Early-Career Hiring Platform";
 }
 
+
+@if (TempData["InfoMessage"] != null)
+{
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <strong>@TempData["InfoMessage"]</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
 <div class="hero-section">
     <section class="hero-panel">
         <div class="hero-copy">
             <h1>
-                Find your <span class="gradient-text">dream job</span><br/>
+                Find your <span class="gradient-text">dream job</span><br />
             </h1>
             <div class="hero-status">
                 <span class="hero-status__dot"></span>
@@ -21,9 +30,19 @@
                 <a class="btn btn-success btn-lg" asp-controller="Jobs" asp-action="Index">
                     Browse Jobs
                 </a>
-                <a class="btn btn-outline-secondary btn-lg" asp-area="Identity" asp-page="/Account/Register">
-                    Create Account
-                </a>
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a class="btn btn-outline-danger btn-lg" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home")">
+                        Logout
+                    </a>
+                }
+                else
+                {
+                    <a class="btn btn-outline-secondary btn-lg" asp-area="Identity" asp-page="/Account/Register">
+                        Create Account
+                    </a>
+                }
             </div>
         </div>
 

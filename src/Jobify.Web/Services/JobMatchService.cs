@@ -73,9 +73,14 @@ public class JobMatchService(ApplicationDbContext dbContext, IWebHostEnvironment
             JobText = BuildJobText(job)
         });
 
+        var mlScore = Math.Round((decimal)Math.Clamp(prediction.Probability, 0f, 1f) * 100m, 0);
+        var heuristicScore = heuristic.MatchScore ?? 0;
+
+        var finalScore = (mlScore + heuristicScore) / 2;
+
         return new JobMatchResultViewModel
         {
-            MatchScore = Math.Round((decimal)Math.Clamp(prediction.Probability, 0f, 1f) * 100m, 0),
+            MatchScore = Math.Round(finalScore, 0),
             MatchReasons = heuristic.MatchReasons,
             MatchSource = "ML"
         };
@@ -156,44 +161,204 @@ public class JobMatchService(ApplicationDbContext dbContext, IWebHostEnvironment
         var candidateText = BuildCandidateText(candidate);
         var candidateTokens = Tokenize(candidateText);
         var jobTokens = Tokenize(BuildJobText(job));
+        var totalJobKeywords = jobTokens.Count;
 
         var skillTokens = Tokenize(job.RequiredSkills);
         var candidateSkillTokens = Tokenize(candidate.Skills);
 
-        var skillMatches = skillTokens.Intersect(candidateSkillTokens).Count();
-        var resumeMatches = jobTokens.Intersect(candidateTokens).Count();
-        var titleMatches = Tokenize(job.Title).Intersect(candidateTokens).Count();
-        var locationMatch = string.Equals(candidate.Location.Trim(), job.Location.Trim(), StringComparison.OrdinalIgnoreCase) ? 1 : 0;
+        // Calculate Skill Match Score (MAX 50 points - most important)
+        int skillMatches = 0;
+        double skillScore = 0;
+        if (skillTokens.Count > 0 && candidateSkillTokens.Count > 0)
+        {
+            skillMatches = skillTokens.Intersect(candidateSkillTokens).Count();
+            double skillMatchRatio = (double)skillMatches / skillTokens.Count;
+            // Only give points if there are actual matches
+            if (skillMatches > 0)
+            {
+                // Use exponential to make it harder to get high scores
+                skillScore = Math.Pow(skillMatchRatio, 2.5) * 50;
+            }
+        }
+        else if (skillTokens.Count > 0 && candidateSkillTokens.Count == 0)
+        {
+            skillScore = 0;
+        }
 
-        var skillScore = skillTokens.Count == 0 ? 0 : skillMatches * 40m / skillTokens.Count;
-        var resumeScore = jobTokens.Count == 0 ? 0 : resumeMatches * 25m / jobTokens.Count;
-        var titleScore = Tokenize(job.Title).Count == 0 ? 0 : titleMatches * 10m / Math.Max(Tokenize(job.Title).Count, 1);
-        var locationScore = locationMatch * 5m;
+        // Calculate Title Match (MAX 15 points)
+        var jobTitleTokens = Tokenize(job.Title);
+        var titleMatches = jobTitleTokens.Intersect(candidateTokens).Count();
+        double titleScore = 0;
+        if (jobTitleTokens.Count > 0 && titleMatches > 0)
+        {
+            double titleMatchRatio = (double)titleMatches / jobTitleTokens.Count;
+            titleScore = titleMatchRatio * 15;
+        }
 
-        var baseScore = (candidateTokens.Count > 0) ? 20m : 0m;
+        // Calculate Location Match (MAX 15 points)
+        double locationScore = 0;
+        if (!string.IsNullOrEmpty(candidate.Location) && !string.IsNullOrEmpty(job.Location))
+        {
+            var candidateLocation = candidate.Location.Trim().ToLowerInvariant();
+            var jobLocation = job.Location.Trim().ToLowerInvariant();
 
-        var totalScore = Math.Round(baseScore + skillScore + resumeScore + titleScore + locationScore, 0);
-        totalScore = Math.Min(100m, Math.Max(0m, totalScore));
+            if (candidateLocation == jobLocation)
+            {
+                locationScore = 15;
+            }
+            else if (candidateLocation.Contains(jobLocation) || jobLocation.Contains(candidateLocation))
+            {
+                locationScore = 10;
+            }
+            else
+            {
+                // Check if both are remote/hybrid
+                bool isRemote = jobLocation.Contains("remote") || candidateLocation.Contains("remote");
+                bool isHybrid = jobLocation.Contains("hybrid") || candidateLocation.Contains("hybrid");
+                if (isRemote || isHybrid)
+                {
+                    locationScore = 5;
+                }
+            }
+        }
 
+        // Calculate Experience Match (MAX 15 points)
+        double experienceScore = 0;
+        if (!string.IsNullOrEmpty(job.ExperienceLevel))
+        {
+            var jobExperience = job.ExperienceLevel.ToLowerInvariant();
+            var candidateExperience = (candidate.ExperienceSummary + " " + candidate.Headline).ToLowerInvariant();
+
+            if (candidateExperience.Contains(jobExperience))
+            {
+                experienceScore = 15;
+            }
+            else
+            {
+                // Check for related keywords
+                var experienceKeywords = new[] { "junior", "entry", "senior", "lead", "manager", "director", "intern", "trainee" };
+                foreach (var keyword in experienceKeywords)
+                {
+                    if (jobExperience.Contains(keyword) && candidateExperience.Contains(keyword))
+                    {
+                        experienceScore = 10;
+                        break;
+                    }
+                }
+            }
+        }
+        else
+        {
+            experienceScore = 15; // No experience required
+        }
+
+        // Calculate Keyword Overlap (MAX 5 points - least important)
+        double keywordScore = 0;
+        if (totalJobKeywords > 0)
+        {
+            var keywordOverlaps = jobTokens.Intersect(candidateTokens).Count();
+            if (keywordOverlaps > 0)
+            {
+                double keywordMatchRatio = (double)keywordOverlaps / totalJobKeywords;
+                keywordScore = Math.Min(keywordMatchRatio * 5, 5);
+            }
+        }
+
+        // Calculate total score
+        double totalScore = skillScore + titleScore + locationScore + experienceScore + keywordScore;
+        totalScore = Math.Min(100, Math.Max(0, Math.Round(totalScore, 0)));
+
+        // Build reasons
         var reasons = new List<string>();
-        if (skillMatches > 0)
+
+        // Skill match reasons
+        if (skillMatches > 0 && skillTokens.Count > 0)
         {
-            reasons.Add($"{skillMatches} required skill match{(skillMatches == 1 ? string.Empty : "es")}");
+            if (skillMatches == skillTokens.Count)
+            {
+                reasons.Add($"All {skillTokens.Count} required skills matched");
+            }
+            else
+            {
+                reasons.Add($"{skillMatches} of {skillTokens.Count} required skills matched");
+                var missingSkills = skillTokens.Except(candidateSkillTokens).Take(3);
+                if (missingSkills.Any())
+                {
+                    reasons.Add($"Missing: {string.Join(", ", missingSkills)}");
+                }
+            }
+        }
+        else if (skillTokens.Count > 0 && skillMatches == 0)
+        {
+            reasons.Add($"No matching skills found");
+            reasons.Add($"Required: {string.Join(", ", skillTokens.Take(3))}");
         }
 
-        if (resumeMatches > 0)
+        // Title match
+        if (titleMatches > 0)
         {
-            reasons.Add($"{resumeMatches} keyword overlap{(resumeMatches == 1 ? string.Empty : "s")} in resume text");
+            reasons.Add($"{titleMatches} job title keyword{(titleMatches > 1 ? "s" : "")} matched");
         }
 
-        if (locationMatch == 1)
+        // Location match
+        if (locationScore >= 15)
         {
-            reasons.Add("Preferred location matched");
+            reasons.Add($"Location matches: {job.Location}");
+        }
+        else if (locationScore >= 10)
+        {
+            reasons.Add($"Location partially matches: {job.Location}");
+        }
+        else if (!string.IsNullOrEmpty(job.Location) && locationScore == 0)
+        {
+            reasons.Add($"Location mismatch: {job.Location}");
+        }
+
+        // Experience match
+        if (experienceScore >= 15)
+        {
+            reasons.Add($"Experience level matches: {job.ExperienceLevel}");
+        }
+        else if (experienceScore >= 10)
+        {
+            reasons.Add($"Experience level partially matches: {job.ExperienceLevel}");
+        }
+        else if (!string.IsNullOrEmpty(job.ExperienceLevel))
+        {
+            reasons.Add($"Experience mismatch: {job.ExperienceLevel} required");
+        }
+
+        // Keyword overlap
+        if (keywordScore > 0 && skillMatches == 0)
+        {
+            reasons.Add($"Keyword overlaps found in resume");
+        }
+
+        // Overall rating
+        if (totalScore >= 80)
+        {
+            reasons.Add("Excellent match!");
+        }
+        else if (totalScore >= 60)
+        {
+            reasons.Add("Good match");
+        }
+        else if (totalScore >= 40)
+        {
+            reasons.Add("Moderate match - consider updating skills");
+        }
+        else if (totalScore >= 20)
+        {
+            reasons.Add("Low match - significant skill gap");
+        }
+        else
+        {
+            reasons.Add("Very low match - skills don't align");
         }
 
         return new JobMatchResultViewModel
         {
-            MatchScore = totalScore,
+            MatchScore = (decimal)totalScore,
             MatchReasons = reasons,
             MatchSource = "Heuristic"
         };

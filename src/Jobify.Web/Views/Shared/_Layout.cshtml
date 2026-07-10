@@ -84,7 +84,7 @@
                         }
                         <li class="nav-item">
                             <a class="nav-link nav-pill" asp-area="" asp-controller="Home" asp-action="Privacy">
-                                <span class="nav-index">05</span>Privacy
+                                <span class="nav-index">06</span>Privacy
                             </a>
                         </li>
                     </ul>
@@ -104,6 +104,169 @@
         @RenderBody()
     </main>
 
+    <!-- Footer -->
+    <footer class="site-footer mt-auto">
+        <div class="container site-shell">
+            <div class="row py-5 g-4">
+                <!-- Brand Column -->
+                <div class="col-lg-4 col-md-6">
+                    <a class="navbar-brand brand-mark mb-3 d-inline-block" asp-area="" asp-controller="Home" asp-action="Index">
+                        <span class="brand-mark__bracket">[</span>
+                        <span class="brand-mark__dot"></span>
+                        <span>JOBIFY</span>
+                        <span class="brand-mark__bracket">]</span>
+                    </a>
+                    <p class="text-muted small mb-3">
+                        Connecting students, graduates, and startups through our recruitment platform.
+                        Upload your CV, get relevant matches, and apply to roles built for early-career talent.
+                    </p>
+                    <div class="social-links d-flex gap-3">
+                        <a href="#" class="text-muted text-decoration-none" aria-label="Twitter">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" />
+                            </svg>
+                        </a>
+                        <a href="#" class="text-muted text-decoration-none" aria-label="LinkedIn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 3.601a1.457 1.457 0 0 0-1.455 1.467c0 .81.653 1.467 1.455 1.467.802 0 1.455-.657 1.455-1.467 0-.81-.653-1.467-1.455-1.467zm-1.455 2.548h.002V13h2.91V7.295h-2.91zm4.59 0h2.91v1.5h-.045c.414-.78 1.422-1.6 2.924-1.6 3.125 0 3.704 2.058 3.704 4.736V13h-2.91v-3.6c0-1.08-.39-1.82-1.368-1.82-1.045 0-1.61.7-1.61 1.82V13h-2.91V7.295z" />
+                            </svg>
+                        </a>
+                        <a href="#" class="text-muted text-decoration-none" aria-label="GitHub">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
+                            </svg>
+                        </a>
+                        <a href="#" class="text-muted text-decoration-none" aria-label="YouTube">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.007 2.007 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.007 2.007 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31.4 31.4 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.007 2.007 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A99.788 99.788 0 0 1 7.858 2h.193zM6.4 5.209v4.818l4.157-2.408L6.4 5.209z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links Column -->
+                <div class="col-lg-2 col-md-6">
+                    <h6 class="fw-bold mb-3">Platform</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a class="text-muted text-decoration-none" asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li class="mb-2"><a class="text-muted text-decoration-none" asp-controller="Jobs" asp-action="Index">Browse Jobs</a></li>
+                        <li class="mb-2"><a class="text-muted text-decoration-none" asp-controller="Home" asp-action="Privacy">Privacy Policy</a></li>
+                        <li class="mb-2"><a class="text-muted text-decoration-none" href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+
+                <!-- For Candidates Column -->
+                <div class="col-lg-2 col-md-6">
+                    <h6 class="fw-bold mb-3">For Candidates</h6>
+                    <ul class="list-unstyled">
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("JobSeeker"))
+                        {
+                            <li class="mb-2"><a class="text-muted text-decoration-none" asp-controller="Candidate" asp-action="Profile">My Profile</a></li>
+                            <li class="mb-2"><a class="text-muted text-decoration-none" asp-controller="Candidate" asp-action="Applications">My Applications</a></li>
+                            <li class="mb-2"><a class="text-muted text-decoration-none" asp-controller="Jobs" asp-action="Index">Browse Jobs</a></li>
+                        }
+                        else if (User.Identity.IsAuthenticated && User.IsInRole("Employer"))
+                        {
+                            <li class="mb-2"><a class="text-muted text-decoration-none" href="#" onclick="alert('Please switch to Job Seeker account to access candidate features');">My Profile</a></li>
+                            <li class="mb-2"><a class="text-muted text-decoration-none" href="#" onclick="alert('Please switch to Job Seeker account to access candidate features');">My Applications</a></li>
+                            <li class="mb-2"><a class="text-muted text-decoration-none" asp-controller="Jobs" asp-action="Index">Browse Jobs</a></li>
+                        }
+                        else
+                        {
+                            <li class="mb-2"><a class="text-muted text-decoration-none" asp-area="Identity" asp-page="/Account/Register">Create Account</a></li>
+                            <li class="mb-2"><a class="text-muted text-decoration-none" asp-area="Identity" asp-page="/Account/Login">Login</a></li>
+                            <li class="mb-2"><a class="text-muted text-decoration-none" asp-controller="Jobs" asp-action="Index">Browse Jobs</a></li>
+                        }
+                        <li class="mb-2"><a class="text-muted text-decoration-none" href="#">Career Tips</a></li>
+                    </ul>
+                </div>
+
+                <!-- For Employers Column -->
+                <div class="col-lg-2 col-md-6">
+                    <h6 class="fw-bold mb-3">For Employers</h6>
+                    <ul class="list-unstyled">
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Employer"))
+                        {
+                            <li class="mb-2"><a class="text-muted text-decoration-none" asp-controller="Employer" asp-action="Dashboard">Dashboard</a></li>
+                            <li class="mb-2"><a class="text-muted text-decoration-none" asp-controller="Employer" asp-action="PostJob">Post a Job</a></li>
+                            <li class="mb-2"><a class="text-muted text-decoration-none" asp-controller="Employer" asp-action="Reports">Reports</a></li>
+                        }
+                        else if (User.Identity.IsAuthenticated && User.IsInRole("JobSeeker"))
+                        {
+                            <li class="mb-2"><a class="text-muted text-decoration-none" href="#" onclick="alert('Please switch to Employer account to access employer features');">Dashboard</a></li>
+                            <li class="mb-2"><a class="text-muted text-decoration-none" href="#" onclick="alert('Please switch to Employer account to access employer features');">Post a Job</a></li>
+                            <li class="mb-2"><a class="text-muted text-decoration-none" href="#" onclick="alert('Please switch to Employer account to access employer features');">Reports</a></li>
+                        }
+                        else
+                        {
+                            <li class="mb-2"><a class="text-muted text-decoration-none" asp-area="Identity" asp-page="/Account/Register">Create Employer Account</a></li>
+                            <li class="mb-2"><a class="text-muted text-decoration-none" asp-area="Identity" asp-page="/Account/Login">Login</a></li>
+                            <li class="mb-2"><a class="text-muted text-decoration-none" href="#">Hiring Solutions</a></li>
+                        }
+                        <li class="mb-2"><a class="text-muted text-decoration-none" asp-controller="Jobs" asp-action="Index">Browse Talent</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Column -->
+                <div class="col-lg-2 col-md-6">
+                    <h6 class="fw-bold mb-3">Contact</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <a class="text-muted text-decoration-none" href="mailto:support@jobify.com">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16" class="me-1">
+                                    <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z" />
+                                </svg>
+                                support@jobify.com
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a class="text-muted text-decoration-none" href="#">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16" class="me-1">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                    <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z" />
+                                </svg>
+                                Help Center
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a class="text-muted text-decoration-none" href="#">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16" class="me-1">
+                                    <path d="M5.8 3.1.5 7.6c-.3.3-.5.7-.5 1.1v4.5c0 .8.7 1.5 1.5 1.5h12c.8 0 1.5-.7 1.5-1.5V8.7c0-.4-.2-.8-.5-1.1L10.2 3.1c-.6-.5-1.5-.5-2.1 0L5.8 3.1zM8 1.9c-.8 0-1.6.3-2.1.9L1.5 7.6c-.2.2-.4.5-.4.8v4.5c0 .4.3.7.7.7h12.4c.4 0 .7-.3.7-.7V8.4c0-.3-.2-.6-.4-.8L10.1 2.8c-.5-.6-1.3-.9-2.1-.9zM8 10.5c-.8 0-1.5-.7-1.5-1.5s.7-1.5 1.5-1.5 1.5.7 1.5 1.5-.7 1.5-1.5 1.5z" />
+                                </svg>
+                                FAQ
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a class="text-muted text-decoration-none" href="mailto:feedback@jobify.com">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16" class="me-1">
+                                    <path d="M5.5 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5z" />
+                                    <path d="M1 2.5A2.5 2.5 0 0 1 3.5 0h9A2.5 2.5 0 0 1 15 2.5v10a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5v-10zm2.5-1A1.5 1.5 0 0 0 2 2.5v10A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5v-10A1.5 1.5 0 0 0 12.5 1h-9z" />
+                                </svg>
+                                Feedback
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom Bar -->
+            <div class="footer-bottom py-3 mt-3 border-top border-secondary">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <p class="text-muted small mb-0">
+                            &copy; @DateTime.Now.Year <a asp-controller="Home" asp-action="Index" class="text-decoration-none text-muted">Jobify</a>. All rights reserved.
+                        </p>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <span class="text-muted small">
+                            Made with <span class="text-danger">&#9829;</span> for early-career talent
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
@@ -113,8 +276,8 @@
     <div id="chatbot-widget" class="chatbot-container">
         <div id="chatbot-toggle" class="chatbot-toggle" onclick="toggleChatbot()">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-robot" viewBox="0 0 16 16">
-              <path d="M6 12.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5M3 8.062C3 6.76 4.235 5.765 5.53 5.889a28.02 28.02 0 0 1 4.94 0C11.765 5.765 13 6.76 13 8.062v1.157a.933.933 0 0 1-.765.935c-.845.147-2.34.346-4.235.346-1.895 0-3.39-.2-4.235-.346A.933.933 0 0 1 3 9.219zm4.542-.827a.25.25 0 0 0-.217.068l-.92.9a25 25 0 0 1-1.871-.183.25.25 0 0 0-.068.495c.55.076 1.232.149 2.02.193a.25.25 0 0 0 .189-.071l.754-.736.847 1.71a.25.25 0 0 0 .404.062l.932-.97a25 25 0 0 0 1.922-.188.25.25 0 0 0-.068-.495c-.538.074-1.207.145-1.98.189a.25.25 0 0 0-.166.076l-.754.785-.842-1.7a.25.25 0 0 0-.182-.135"/>
-              <path d="M8.5 1.866a1 1 0 1 0-1 0V3h-2A4.5 4.5 0 0 0 1 7.5V8a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1v1a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1v-.5A4.5 4.5 0 0 0 10.5 3h-2zM14 7.5V13a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7.5A3.5 3.5 0 0 1 5.5 4h5A3.5 3.5 0 0 1 14 7.5"/>
+                <path d="M6 12.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5M3 8.062C3 6.76 4.235 5.765 5.53 5.889a28.02 28.02 0 0 1 4.94 0C11.765 5.765 13 6.76 13 8.062v1.157a.933.933 0 0 1-.765.935c-.845.147-2.34.346-4.235.346-1.895 0-3.39-.2-4.235-.346A.933.933 0 0 1 3 9.219zm4.542-.827a.25.25 0 0 0-.217.068l-.92.9a25 25 0 0 1-1.871-.183.25.25 0 0 0-.068.495c.55.076 1.232.149 2.02.193a.25.25 0 0 0 .189-.071l.754-.736.847 1.71a.25.25 0 0 0 .404.062l.932-.97a25 25 0 0 0 1.922-.188.25.25 0 0 0-.068-.495c-.538.074-1.207.145-1.98.189a.25.25 0 0 0-.166.076l-.754.785-.842-1.7a.25.25 0 0 0-.182-.135" />
+                <path d="M8.5 1.866a1 1 0 1 0-1 0V3h-2A4.5 4.5 0 0 0 1 7.5V8a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1v1a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1v-.5A4.5 4.5 0 0 0 10.5 3h-2zM14 7.5V13a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7.5A3.5 3.5 0 0 1 5.5 4h5A3.5 3.5 0 0 1 14 7.5" />
             </svg>
         </div>
         <div id="chatbot-panel" class="chatbot-panel d-none card shadow">
@@ -135,5 +298,140 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Chatbot functions
+        function toggleChatbot() {
+            var panel = document.getElementById('chatbot-panel');
+            panel.classList.toggle('d-none');
+        }
+
+        function openChatbot() {
+            var panel = document.getElementById('chatbot-panel');
+            panel.classList.remove('d-none');
+        }
+
+        function handleChatbotSubmit(event) {
+            event.preventDefault();
+            var input = document.getElementById('chatbot-input-text');
+            var message = input.value.trim();
+            if (!message) return;
+
+            // Add user message
+            var messages = document.getElementById('chatbot-messages');
+            var userMsg = document.createElement('div');
+            userMsg.className = 'chatbot-message user-message';
+            userMsg.textContent = message;
+            messages.appendChild(userMsg);
+
+            // Clear input
+            input.value = '';
+
+            // Auto-reply
+            setTimeout(function () {
+                var botMsg = document.createElement('div');
+                botMsg.className = 'chatbot-message bot-message';
+                botMsg.textContent = 'Thanks for your message! Our team will review it and get back to you shortly.';
+                messages.appendChild(botMsg);
+                messages.scrollTop = messages.scrollHeight;
+            }, 500);
+
+            messages.scrollTop = messages.scrollHeight;
+        }
+    </script>
+
+    <style>
+        /* Chatbot styles */
+        .chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+
+        .chatbot-toggle {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #0d6efd;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(13, 110, 253, 0.4);
+            transition: transform 0.2s ease;
+        }
+
+            .chatbot-toggle:hover {
+                transform: scale(1.1);
+            }
+
+        .chatbot-panel {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            width: 320px;
+            max-height: 400px;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .chatbot-messages {
+            height: 250px;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+
+        .chatbot-message {
+            margin-bottom: 8px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            max-width: 85%;
+        }
+
+        .bot-message {
+            background: white;
+            border: 1px solid #dee2e6;
+            margin-right: auto;
+        }
+
+        .user-message {
+            background: #0d6efd;
+            color: white;
+            margin-left: auto;
+        }
+
+        .chatbot-header {
+            border-radius: 12px 12px 0 0;
+        }
+
+        .chatbot-input {
+            border-top: 1px solid #dee2e6;
+            background: white;
+        }
+
+        /* Footer link hover effects */
+        .site-footer .list-unstyled a {
+            transition: color 0.2s ease, transform 0.2s ease;
+            display: inline-block;
+        }
+
+            .site-footer .list-unstyled a:hover {
+                color: #0d6efd !important;
+                transform: translateX(4px);
+            }
+
+        .social-links a {
+            transition: color 0.2s ease, transform 0.2s ease;
+            display: inline-block;
+        }
+
+            .social-links a:hover {
+                color: #0d6efd !important;
+                transform: translateY(-2px);
+            }
+    </style>
 </body>
 </html>
